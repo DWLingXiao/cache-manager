@@ -1,11 +1,11 @@
 {
   "name": "frontend-cache-manager",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "files": [
     "dist/"
   ],
   "description": "CacheManager 是一个用于管理前端缓存的 JavaScript 类。它提供了一系列方法来存储、检索和清除缓存数据，支持使用 `localStorage` 或 `sessionStorage` 作为存储介质，并实现了简单的 LRU (Least Recently Used) 缓存淘汰策略。",
-  "main": "index.js",
+  "main": "dist/bundle.js",
   "type": "module",
   "scripts": {
     "build": "rollup -c"
