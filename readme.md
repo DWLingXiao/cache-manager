@@ -25,7 +25,7 @@ const options = {
   isUseLoaclStorage: true, // 是否使用 localStorage，默认为 false
 };
 
-const myCache = cacheManager(180, options);
+const myCache = cacheManager(180, options); // 缓存过期时间(默认180分钟)，配置项(option)
 ```
 
 ### 设置缓存
