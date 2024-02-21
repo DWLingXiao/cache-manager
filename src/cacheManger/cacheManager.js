@@ -9,7 +9,7 @@ class CacheManager {
       isUseLoaclStorage: false,
     }
   ) {
-    this.defaultExpiration = expiration * 60 * 1000
+    this.defaultExpiration = expiration
 
     // 自定义序列化方法
     this.matchText = options.matchText || 'imdada.cn'
@@ -91,7 +91,7 @@ class CacheManager {
       value: value,
       createTime: Date.now(),
       lastAccessed: Date.now(),
-      expiration: expiration,
+      expiration: expiration * 60 * 1000,
     }
 
     try {
