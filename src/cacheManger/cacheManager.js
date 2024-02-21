@@ -19,18 +19,18 @@ class CacheManager {
   }
 
   _getByteSize(str) {
-    if (window.Blob) {
-      return new Blob([str]).size
+    if (typeof Blob === 'function') {
+      return new Blob([str]).size;
+    } else if (typeof TextEncoder === 'function') {
+      return new TextEncoder().encode(str).length;
+    } else {
+      // 简单的估算，每个字符计算为1字节
+      return str.length;
     }
-    return new TextEncoder().encode(str).length
   }
 
   _checkUrlPresence(text) {
-    if (!text) {
-      return
-    }
-    console.log(`${text}`.includes(this.matchText))
-    return `${text}`.includes(this.matchText)
+    return text ? `${text}`.includes(this.matchText) : false;
   }
 
   _LRU() {
@@ -77,8 +77,8 @@ class CacheManager {
   }
 
   // 判断是否过期
-  isCacheExpired = (lastAccessed, expiration) => {
-    return Date.now() - lastAccessed > expiration
+  isCacheExpired(lastAccessed, expiration) {
+    return Date.now() - lastAccessed > expiration;
   }
 
   setCacheValue({
