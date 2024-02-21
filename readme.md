@@ -25,7 +25,7 @@ const options = {
   isUseLoaclStorage: true, // 是否使用 localStorage，默认为 false
 };
 
-const myCache = cacheManager(180, options);
+const myCache = cacheManager(180, options); // 缓存过期时间(默认180分钟)，配置项(option)
 ```
 
 ### 设置缓存
@@ -33,7 +33,7 @@ const myCache = cacheManager(180, options);
 ```javascript
 myCache.setCacheValue({
   value: 'some data',
-  expiration: 300, // 可选，单位为秒，默认为构造函数中设置的值
+  expiration: 300, // 可选，单位为分，默认为构造函数中设置的值
   flagKey: 'uniqueKey', // 可选，默认为 'default'
 });
 ```
