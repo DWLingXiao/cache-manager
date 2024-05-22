@@ -10,12 +10,6 @@
 npm install cachemanager
 ```
 
-或者在你的项目中直接使用 CDN：
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/cachemanager/dist/cachemanager.min.js"></script>
-```
-
 ## 使用
 
 首先，你需要创建一个新的 `CacheManager` 实例，并传入所需的参数：
@@ -37,7 +31,7 @@ const cacheManager = new CacheManager(180, {
 // 设置缓存数据
 cacheManager.setCacheValue({
   value: 'Hello, World!',
-  expiration: 300, // 5分钟
+  expiration: 5, // 5分钟
 });
 
 // 获取缓存数据
@@ -103,9 +97,6 @@ console.log(cacheManager.getCacheStats()); // 输出当前缓存状态
 
 ## 贡献
 
-如果你有任何建议或发现任何问题，请随时在 GitHub 上提交 [Issue](https://github.com/your-username/cachemanager/issues) 或者 [Pull Request](https://github.com/your-username/cachemanager/pulls)。
+如果你有任何建议或发现任何问题，请随时在 GitHub 上提交 [Issue](https://github.com/DWLingXiao/cache-manager/issues) 或者 [Pull Request](https://github.com/DWLingXiao/cache-manager/pulls)。
 
-## 版权与许可证
-
-Copyright (c) 2023 Your Name. This project is licensed under the [MIT License](https://github.com/your-username/cachemanager/blob/main/LICENSE).
 
