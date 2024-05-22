@@ -1,79 +1,111 @@
 # CacheManager
 
-CacheManager 是一个用于管理前端缓存的 JavaScript 类。它提供了一系列方法来存储、检索和清除缓存数据，支持使用 `localStorage` 或 `sessionStorage` 作为存储介质，并实现了简单的 LRU (Least Recently Used) 缓存淘汰策略。
+## 简介
 
-## 特性
+`CacheManager` 是一个基于 JavaScript 的轻量级缓存库，旨在帮助开发者更轻松地管理网站或应用中的缓存数据。它支持多种存储类型（包括 `sessionStorage` 和 `localStorage`），并且允许注册自定义插件以扩展其功能。
 
-- 支持自定义缓存过期时间
-- 支持自定义序列化和反序列化方法
-- 可选使用 `localStorage` 或 `sessionStorage`
-- 自动执行 LRU 缓存淘汰策略
-- 支持按 URL 匹配缓存
-- 提供缓存统计信息
+## 安装
 
-## 使用方法
-
-首先，你需要导入 `CacheManager` 类并创建一个实例：
-
-```javascript
-import { cacheManager } from 'cache-manager';
-
-const options = {
-  matchText: 'example.com', // 自定义匹配文本
-  serialize: customSerializeFunction, // 自定义序列化函数
-  deserialize: customDeserializeFunction, // 自定义反序列化函数
-  isUseLoaclStorage: true, // 是否使用 localStorage，默认为 false
-};
-
-const myCache = cacheManager(180, options); // 缓存过期时间(默认180分钟)，配置项(option)
+```bash
+npm install cachemanager
 ```
 
-### 设置缓存
+或者在你的项目中直接使用 CDN：
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/cachemanager/dist/cachemanager.min.js"></script>
+```
+
+## 使用
+
+首先，你需要创建一个新的 `CacheManager` 实例，并传入所需的参数：
 
 ```javascript
-myCache.setCacheValue({
-  value: 'some data',
-  expiration: 300, // 可选，单位为分，默认为构造函数中设置的值
-  flagKey: 'uniqueKey', // 可选，默认为 'default'
+import CacheManager from 'cachemanager';
+
+const cacheManager = new CacheManager(180, {
+  matchText: 'example.com',
+  serialize: JSON.stringify,
+  deserialize: JSON.parse,
+  storageType: 'sessionStorage',
 });
 ```
 
-### 获取缓存
+然后，你可以通过以下方式设置和获取缓存数据：
 
 ```javascript
-const cachedData = myCache.getCacheValue('uniqueKey');
+// 设置缓存数据
+cacheManager.setCacheValue({
+  value: 'Hello, World!',
+  expiration: 300, // 5分钟
+});
+
+// 获取缓存数据
+const cachedValue = cacheManager.getCacheValue();
+console.log(cachedValue); // 输出：Hello, World!
 ```
 
-### 清除缓存
+此外，`CacheManager` 还提供了其他一些实用的方法，如检查缓存是否过期、清除缓存数据等。
+
+## 插件
+
+`CacheManager` 支持注册自定义插件来扩展其功能。例如，你可以编写一个插件来记录每次缓存操作的日志信息：
 
 ```javascript
-myCache.clearCacheValue('uniqueKey'); // 清除特定键的缓存
-myCache.clearCacheValue(); // 清除所有缓存
+import { TrackEventPlugin } from 'cachemanager';
+
+class LogPlugin implements CachePlugin {
+  beforeSet(key: string, value: any, flagKey: string, currentValue: any) {
+    console.log(`Setting cache "${key}" with value "${value}"`);
+  }
+
+  afterGet(key: string, flagKey: string, value: any) {
+    console.log(`Getting cache "${key}" with value "${value}"`);
+  }
+}
+
+cacheManager.addPlugin(new LogPlugin());
 ```
 
-### 缓存统计
+## 示例
+
+下面是一个简单的示例，展示了如何使用 `CacheManager` 来管理缓存数据：
 
 ```javascript
-const stats = myCache.getCacheStats();
-console.log(stats.text);
+import CacheManager from 'cachemanager';
+import { LogPlugin } from 'cachemanager';
+
+const cacheManager = new CacheManager(180, {
+  matchText: 'example.com',
+  serialize: JSON.stringify,
+  deserialize: JSON.parse,
+  storageType: 'sessionStorage',
+});
+
+cacheManager.addPlugin(new LogPlugin());
+
+// 设置缓存数据
+cacheManager.setCacheValue({
+  value: 'Hello, World!',
+  expiration: 300, // 5分钟
+});
+
+// 获取缓存数据
+const cachedValue = cacheManager.getCacheValue();
+console.log(cachedValue); // 输出：Hello, World!
+
+// 清除缓存数据
+cacheManager.clearCacheValue();
+
+// 检查缓存状态
+console.log(cacheManager.getCacheStats()); // 输出当前缓存状态
 ```
-
-### 页面重载时清除缓存
-
-```javascript
-myCache.clearOnPageReload();
-```
-
-## 注意事项
-
-- 缓存管理器默认匹配的文本是 'imdada.cn'，你可以通过 `options.matchText` 来自定义。
-- 默认的序列化和反序列化方法是 `JSON.stringify` 和 `JSON.parse`，你可以通过 `options.serialize` 和 `options.deserialize` 来自定义。
-- 缓存大小限制默认为 4MB，超过这个大小时将触发 LRU 淘汰策略。
 
 ## 贡献
 
-如果你有任何建议或改进，请提交 Pull Request 或创建 Issue。
+如果你有任何建议或发现任何问题，请随时在 GitHub 上提交 [Issue](https://github.com/your-username/cachemanager/issues) 或者 [Pull Request](https://github.com/your-username/cachemanager/pulls)。
 
-## 许可证
+## 版权与许可证
 
-本项目采用 ISC 许可证。有关更多信息，请查看项目中的 LICENSE 文件。
+Copyright (c) 2023 Your Name. This project is licensed under the [MIT License](https://github.com/your-username/cachemanager/blob/main/LICENSE).
+

@@ -1,30 +1,26 @@
 {
-  "name": "frontend-cache-manager",
-  "version": "1.0.2",
+  "name": "cache-manager",
+  "version": "1.1.14",
+  "description": "CacheManager 是一个用于管理前端缓存的 JavaScript 类。它提供了一系列方法来存储、检索和清除缓存数据，支持使用 `localStorage` 或 `sessionStorage` 作为存储介质，并实现了简单的 LRU (Least Recently Used) 缓存淘汰策略。",
+  "main": "dist/bundle.js",
   "files": [
     "dist/"
   ],
-  "description": "CacheManager 是一个用于管理前端缓存的 JavaScript 类。它提供了一系列方法来存储、检索和清除缓存数据，支持使用 `localStorage` 或 `sessionStorage` 作为存储介质，并实现了简单的 LRU (Least Recently Used) 缓存淘汰策略。",
-  "main": "dist/bundle.js",
   "type": "module",
   "scripts": {
     "build": "rollup -c"
   },
   "keywords": [],
-  "author": "DW.LingXiao",
+  "author": "DWLingXiao",
   "license": "ISC",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "^0.4.4",
-    "rollup": "^4.9.6"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/DWLingXiao/cache-manager.git"
-  },
-  "bugs": {
-    "url": "https://github.com/DWLingXiao/cache-manager/issues"
-  },
-  "homepage": "https://github.com/DWLingXiao/cache-manager#readme"
+    "@rollup/plugin-typescript": "^11.1.6",
+    "rollup": "^4.9.6",
+    "rollup-plugin-dts": "^6.1.0",
+    "tslib": "^2.6.2",
+    "typescript": "^5.4.2"
+  }
 }

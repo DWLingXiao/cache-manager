@@ -1,11 +1,25 @@
+import typescript from '@rollup/plugin-typescript'
 import terser from '@rollup/plugin-terser'
+import dts from 'rollup-plugin-dts'
 
-export default {
-  input: 'src/index.js',
-  output: {
-    file: 'dist/bundle.js',
-    format: 'es',
-    name: 'CacheManager',
+const config = [
+  {
+    input: 'src/index.ts',
+    output: {
+      file: 'dist/bundle.js',
+      format: 'es',
+      name: 'CacheManager',
+    },
+    plugins: [typescript(), terser()],
   },
-  plugins: [terser()],
-}
+  {
+    input: 'src/index.ts',
+    output: {
+      file: 'dist/bundle.d.ts',
+      format: 'es',
+    },
+    plugins: [dts()],
+  },
+]
+
+export default config
