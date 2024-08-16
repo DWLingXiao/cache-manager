@@ -1,5 +1,6 @@
 import { TrackEventPlugin } from '../plugins/TrackEventPlugin'
 import { CacheOptions, CachePlugin, StorageType } from '../types/index'
+import { CACHE_MATCH_TEXT, DEFAULT_FLAG_KEY } from './constants'
 class CacheManager {
   private defaultExpiration: number
   private matchText: string
@@ -18,11 +19,13 @@ class CacheManager {
     }
   ) {
     this.defaultExpiration = expiration
-    this.matchText = options.matchText || 'example.com'
+    this.matchText = options.matchText || CACHE_MATCH_TEXT
     this.serialize = options.serialize || JSON.stringify
     this.deserialize = options.deserialize || JSON.parse
     this.storageType = options.storageType || 'sessionStorage'
+    this.addPlugin(new TrackEventPlugin());
   }
+  
 
   // 注册插件
   public addPlugin(plugin: CachePlugin): void {
@@ -126,7 +129,7 @@ class CacheManager {
   }
 
   public getCacheKey(): string {
-    return window.location.href
+    return `${window.location.href}_${CACHE_MATCH_TEXT}`
   }
 
   public isCacheExpired(lastAccessed: number, expiration: number): boolean {
@@ -136,7 +139,7 @@ class CacheManager {
   public setCacheValue({
     value,
     expiration = this.defaultExpiration,
-    flagKey = 'default',
+    flagKey = DEFAULT_FLAG_KEY,
   }: {
     value: any
     expiration?: number
@@ -177,7 +180,7 @@ class CacheManager {
     }
   }
 
-  public getCacheValue(flagKey: string = 'default'): any {
+  public getCacheValue(flagKey: string = DEFAULT_FLAG_KEY): any {
     const key = this.getCacheKey()
 
     try {
@@ -212,10 +215,10 @@ class CacheManager {
     }
   }
 
-  public clearCacheValue(flagKey: string = 'default'): void {
+  public clearCacheValue(flagKey: string = DEFAULT_FLAG_KEY): void {
     const key = this.getCacheKey()
     try {
-      if (!flagKey || flagKey === 'default') {
+      if (!flagKey || flagKey === DEFAULT_FLAG_KEY) {
         this.storage.removeItem(key)
       } else {
         const cacheValueRaw = this.storage.getItem(key)
@@ -285,12 +288,4 @@ class CacheManager {
   }
 }
 
-export const cacheManager = (
-  expiration: number,
-  options: CacheOptions
-): CacheManager => {
-  const instance = new CacheManager(expiration, options)
-  instance.addPlugin(new TrackEventPlugin())
-
-  return instance
-}
+export { CacheManager }

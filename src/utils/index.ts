@@ -1,3 +1,4 @@
+// 比较算法，比较前一次和这一次缓存值的差异
 export function compareValues<T extends Object>(value1: T, value2: T): number {
   if (value1 === value2) {
     return 1
